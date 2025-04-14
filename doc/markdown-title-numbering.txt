@@ -1,0 +1,95 @@
+*markdown-title-numbering.txt*  Automatically number markdown titles
+
+==============================================================================
+CONTENTS                                      *markdown-title-numbering-contents*
+
+    1. Introduction ................ |markdown-title-numbering-introduction|
+    2. Installation ................ |markdown-title-numbering-installation|
+    3. Usage ....................... |markdown-title-numbering-usage|
+    4. Configuration ............... |markdown-title-numbering-configuration|
+    5. Commands .................... |markdown-title-numbering-commands|
+
+==============================================================================
+1. INTRODUCTION                              *markdown-title-numbering-introduction*
+
+Markdown Title Numbering is a Neovim plugin that automatically numbers markdown
+titles according to their hierarchy level.
+
+Default numbering format:
+    ## 1. Title
+    ### 1.1 Title
+    #### 1.1.1 Title
+    ##### 1.1.1.1 Title
+    ###### 1.1.1.1.1 Title
+
+==============================================================================
+2. INSTALLATION                              *markdown-title-numbering-installation*
+
+Using packer.nvim:
+>
+    use {
+        'gitsang/markdown-title-numbering.nvim',
+        config = function()
+            require('markdown-title-numbering').setup({
+                -- your configuration here (optional)
+            })
+        end
+    }
+<
+
+Using lazy.nvim:
+>
+    {
+        'gitsang/markdown-title-numbering.nvim',
+        config = function()
+            require('markdown-title-numbering').setup({
+                -- your configuration here (optional)
+            })
+        end
+    }
+<
+
+==============================================================================
+3. USAGE                                      *markdown-title-numbering-usage*
+
+By default, the plugin will automatically number markdown titles when saving a
+markdown file. You can also manually trigger the numbering with the provided
+commands.
+
+==============================================================================
+4. CONFIGURATION                              *markdown-title-numbering-configuration*
+
+You can configure the plugin by passing a table to the setup function:
+>
+    require('markdown-title-numbering').setup({
+        -- Default numbering format
+        format = {
+            [2] = "%d.",      -- ## 1. Title
+            [3] = "%d.%d",    -- ### 1.1 Title
+            [4] = "%d.%d.%d", -- #### 1.1.1 Title
+            [5] = "%d.%d.%d.%d", -- ##### 1.1.1.1 Title
+            [6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
+        },
+        -- Whether to automatically number titles when saving markdown files
+        auto_number_on_save = true,
+        -- File patterns to apply the numbering
+        file_patterns = { "*.md", "*.markdown" },
+        -- Whether to add a space after the number
+        space_after_number = true,
+        -- Skip level 1 headers (# Title)
+        skip_level_1 = true,
+    })
+<
+
+==============================================================================
+5. COMMANDS                                   *markdown-title-numbering-commands*
+
+*:MarkdownNumberTitles*
+    Number all markdown titles in the current buffer.
+
+*:MarkdownRemoveTitleNumbers*
+    Remove numbers from all markdown titles in the current buffer.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:
+
