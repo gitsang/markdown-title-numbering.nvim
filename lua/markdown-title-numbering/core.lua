@@ -13,7 +13,8 @@ local function parse_title(line)
 	level = #level
 
 	-- Check if the title already has a number
-	local has_number = rest:match("^%d+%.") ~= nil
+	-- Match patterns like "1.", "1.1.", "1.1.1.", etc.
+	local has_number = rest:match("^[%d%.]+%.%s+") ~= nil
 
 	-- Extract the title text (without the number if it exists)
 	local title_text
