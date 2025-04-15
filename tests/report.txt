@@ -1,0 +1,163 @@
+Running all tests...
+
+=== parse_title tests ===
+Running parse_title tests...
+
+Test 1: Level 1 title without number
+Input: # Title
+Expected: level=1, has_number=false, title_text=Title
+Got: level=1, has_number=false, title_text=Title
+PASS
+
+Test 2: Level 2 title without number
+Input: ## Title
+Expected: level=2, has_number=false, title_text=Title
+Got: level=2, has_number=false, title_text=Title
+PASS
+
+Test 3: Level 2 title with number
+Input: ## 1. Title
+Expected: level=2, has_number=true, title_text=Title
+Got: level=2, has_number=true, title_text=Title
+PASS
+
+Test 4: Level 3 title with number
+Input: ### 1.1. Title
+Expected: level=3, has_number=true, title_text=Title
+Got: level=3, has_number=true, title_text=Title
+PASS
+
+Test 5: Level 4 title with number
+Input: #### 1.1.1. Title
+Expected: level=4, has_number=true, title_text=Title
+Got: level=4, has_number=true, title_text=Title
+PASS
+
+Test 6: Level 5 title with number
+Input: ##### 1.1.1.1. Title
+Expected: level=5, has_number=true, title_text=Title
+Got: level=5, has_number=true, title_text=Title
+PASS
+
+Test 7: Level 6 title with number
+Input: ###### 1.1.1.1.1. Title
+Expected: level=6, has_number=true, title_text=Title
+Got: level=6, has_number=true, title_text=Title
+PASS
+
+Test 8: Not a title
+Input: This is not a title
+Expected: level=nil, has_number=false, title_text=nil
+Got: level=nil, has_number=false, title_text=nil
+PASS
+
+Test results: 8 passed, 0 failed
+
+=== remove_title_numbers tests ===
+Running remove_title_numbers tests...
+
+Test 1: Remove number from level 2 title
+Input:
+  ## 1. Title
+Expected:
+  ## Title
+Got:
+  ## Title
+PASS
+
+Test 2: Remove number from level 3 title
+Input:
+  ### 1.1. Title
+Expected:
+  ### Title
+Got:
+  ### Title
+PASS
+
+Test 3: Remove number from level 4 title
+Input:
+  #### 1.1.1. Title
+Expected:
+  #### Title
+Got:
+  #### Title
+PASS
+
+Test 4: Remove number from level 5 title
+Input:
+  ##### 1.1.1.1. Title
+Expected:
+  ##### Title
+Got:
+  ##### Title
+PASS
+
+Test 5: Remove number from level 6 title
+Input:
+  ###### 1.1.1.1.1. Title
+Expected:
+  ###### Title
+Got:
+  ###### Title
+PASS
+
+Test 6: No change for title without number
+Input:
+  ## Title
+Expected:
+  ## Title
+Got:
+  ## Title
+PASS
+
+Test 7: No change for non-title
+Input:
+  This is not a title
+Expected:
+  This is not a title
+Got:
+  This is not a title
+PASS
+
+Test 8: Multiple lines with mixed titles
+Input:
+  # Main Title
+  ## 1. Introduction
+  ### 1.1 Background
+  ### 1.2 Motivation
+  ## 2. Methods
+  ### 2.1 Data Collection
+  #### 2.1.1 Survey
+  #### 2.1.2 Interviews
+  ### 2.2 Analysis
+  ## 3. Results
+Expected:
+  # Main Title
+  ## Introduction
+  ### Background
+  ### Motivation
+  ## Methods
+  ### Data Collection
+  #### Survey
+  #### Interviews
+  ### Analysis
+  ## Results
+Got:
+  # Main Title
+  ## Introduction
+  ### Background
+  ### Motivation
+  ## Methods
+  ### Data Collection
+  #### Survey
+  #### Interviews
+  ### Analysis
+  ## Results
+PASS
+
+Test results: 8 passed, 0 failed
+
+=== Test Summary ===
+parse_title: 8 passed, 0 failed
+remove_title_numbers: 8 passed, 0 failed
+Total: 16 passed, 0 failed

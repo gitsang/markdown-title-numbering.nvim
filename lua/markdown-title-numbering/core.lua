@@ -13,9 +13,15 @@ local function parse_title(line)
 	level = #level
 
 	-- Check if the title already has a number and extract the title text
-	-- Match patterns like "1. Title", "1.1. Title", "1.1.1. Title", etc.
+	-- First try to match patterns like "1. Title", "1.1. Title", "1.1.1. Title", etc.
 	local number_part, title_text = rest:match("^([%d%.]+%.%s+)(.*)")
 	local has_number = number_part ~= nil
+
+	-- If that didn't match, try patterns like "1 Title", "1.1 Title", "1.1.1 Title", etc.
+	if not has_number then
+		number_part, title_text = rest:match("^([%d%.]+)%s+(.*)")
+		has_number = number_part ~= nil
+	end
 
 	-- If no number pattern was found, use the entire rest as the title text
 	if not has_number then
@@ -99,5 +105,9 @@ function M.remove_title_numbers(config)
 	-- Update the buffer with the modified lines
 	vim.api.nvim_buf_set_lines(0, 0, -1, false, modified_lines)
 end
+
+-- Export functions for testing
+M._parse_title = parse_title
+M._format_number = format_number
 
 return M
