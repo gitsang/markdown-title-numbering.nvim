@@ -12,21 +12,13 @@ local function parse_title(line)
 	-- Get header level (number of # symbols)
 	level = #level
 
-	-- Check if the title already has a number
-	-- Match patterns like "1.", "1.1.", "1.1.1.", etc.
-	local has_number = rest:match("^[%d%.]+%.%s+") ~= nil
+	-- Check if the title already has a number and extract the title text
+	-- Match patterns like "1. Title", "1.1. Title", "1.1.1. Title", etc.
+	local number_part, title_text = rest:match("^([%d%.]+%.%s+)(.*)")
+	local has_number = number_part ~= nil
 
-	-- Extract the title text (without the number if it exists)
-	local title_text
-	if has_number then
-		-- Try to match patterns like "1. Title", "1.2. Title", "1.2.3. Title", etc.
-		title_text = rest:match("^[%d%.]+%.%s+(.*)")
-		if not title_text then
-			-- If no match, just use the rest as is
-			title_text = rest
-			has_number = false
-		end
-	else
+	-- If no number pattern was found, use the entire rest as the title text
+	if not has_number then
 		title_text = rest
 	end
 
