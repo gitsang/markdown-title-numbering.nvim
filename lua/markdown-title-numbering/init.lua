@@ -38,13 +38,17 @@ function M.setup(user_config)
 	end
 
 	-- Create user commands
-	vim.api.nvim_create_user_command("MarkdownNumberTitles", function()
+	vim.api.nvim_create_user_command("MarkdownTitleNumber", function()
 		M.number_titles()
 	end, { desc = "Number markdown titles" })
 
-	vim.api.nvim_create_user_command("MarkdownRemoveTitleNumbers", function()
+	vim.api.nvim_create_user_command("MarkdownTitleNumberRemove", function()
 		M.remove_title_numbers()
 	end, { desc = "Remove markdown title numbers" })
+
+	vim.api.nvim_create_user_command("MarkdownTitleNumberToggle", function()
+		M.toggle_auto_number()
+	end, { desc = "Toggle automatic markdown title numbering" })
 end
 
 -- Load the core functionality
@@ -58,6 +62,31 @@ end
 -- Remove title numbers in the current buffer
 function M.remove_title_numbers()
 	M.core.remove_title_numbers(M.config)
+end
+
+-- Toggle automatic numbering on save
+function M.toggle_auto_number()
+	-- Toggle the auto_number_on_save setting
+	M.config.auto_number_on_save = not M.config.auto_number_on_save
+	
+	-- Remove existing autocommands
+	vim.api.nvim_clear_autocmds({
+		pattern = M.config.file_patterns,
+		event = "BufWritePre"
+	})
+	
+	-- Set up autocommands if enabled
+	if M.config.auto_number_on_save then
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			pattern = M.config.file_patterns,
+			callback = function()
+				M.number_titles()
+			end,
+		})
+		print("Markdown title auto-numbering enabled")
+	else
+		print("Markdown title auto-numbering disabled")
+	end
 end
 
 return M
