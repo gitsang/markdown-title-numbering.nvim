@@ -157,7 +157,109 @@ PASS
 
 Test results: 8 passed, 0 failed
 
+=== code block handling tests ===
+Running code block handling tests...
+
+Test 1: Skip titles in code blocks
+Input:
+  # Main Title
+  ## Introduction
+  ```
+  ## This is not a title
+  ### This is also not a title
+  ```
+  ## Methods
+  ### Data Collection
+Expected:
+  # Main Title
+  ## 1. Introduction
+  ```
+  ## This is not a title
+  ### This is also not a title
+  ```
+  ## 2. Methods
+  ### 2.1 Data Collection
+Got:
+  # Main Title
+  ## 1. Introduction
+  ```
+  ## This is not a title
+  ### This is also not a title
+  ```
+  ## 2. Methods
+  ### 2.1 Data Collection
+PASS
+
+Test 2: Multiple code blocks
+Input:
+  # Main Title
+  ## Introduction
+  ```
+  ## Code block 1
+  ```
+  ## Methods
+  ~~~
+  ## Code block 2
+  ~~~
+  ## Results
+Expected:
+  # Main Title
+  ## 1. Introduction
+  ```
+  ## Code block 1
+  ```
+  ## 2. Methods
+  ~~~
+  ## Code block 2
+  ~~~
+  ## 3. Results
+Got:
+  # Main Title
+  ## 1. Introduction
+  ```
+  ## Code block 1
+  ```
+  ## 2. Methods
+  ~~~
+  ## Code block 2
+  ~~~
+  ## 3. Results
+PASS
+
+Test 3: Nested headings in code blocks
+Input:
+  # Main Title
+  ## Introduction
+  ```markdown
+  # Heading 1
+  ## Heading 2
+  ### Heading 3
+  ```
+  ## Methods
+Expected:
+  # Main Title
+  ## 1. Introduction
+  ```markdown
+  # Heading 1
+  ## Heading 2
+  ### Heading 3
+  ```
+  ## 2. Methods
+Got:
+  # Main Title
+  ## 1. Introduction
+  ```markdown
+  # Heading 1
+  ## Heading 2
+  ### Heading 3
+  ```
+  ## 2. Methods
+PASS
+
+Test results: 3 passed, 0 failed
+
 === Test Summary ===
 parse_title: 8 passed, 0 failed
 remove_title_numbers: 8 passed, 0 failed
-Total: 16 passed, 0 failed
+code_blocks: 3 passed, 0 failed
+Total: 19 passed, 0 failed
