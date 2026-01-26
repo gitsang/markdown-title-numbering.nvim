@@ -16,12 +16,12 @@ For detailed documentation, please see `:help markdown-title-numbering` after in
 
 ```lua
 use {
-    'gitsang/markdown-title-numbering.nvim',
-    config = function()
-        require('markdown-title-numbering').setup({
-            -- your configuration here (optional)
-        })
-    end
+  'gitsang/markdown-title-numbering.nvim',
+  config = function()
+    require('markdown-title-numbering').setup({
+      -- your configuration here (optional)
+    })
+  end
 }
 ```
 
@@ -29,10 +29,10 @@ use {
 
 ```lua
 {
-    'gitsang/markdown-title-numbering.nvim',
-    opts = {
-        -- your configuration here (optional)
-    }
+  'gitsang/markdown-title-numbering.nvim',
+  opts = {
+    -- your configuration here (optional)
+  }
 }
 ```
 
@@ -46,12 +46,12 @@ use {
 
 ```lua
 {
-    'gitsang/markdown-title-numbering.nvim',
-    keys = {
-        { '<leader>mtn', ':MarkdownTitleNumber<CR>', desc = 'Number markdown titles' },
-        { '<leader>mtnr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
-        { '<leader>mtnt', ':MarkdownTitleNumberToggle<CR>', desc = 'Toggle markdown title numbering' },
-    }
+  'gitsang/markdown-title-numbering.nvim',
+  keys = {
+    { '<leader>mtn', ':MarkdownTitleNumber<CR>', desc = 'Number markdown titles' },
+    { '<leader>mtnr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
+    { '<leader>mtnt', ':MarkdownTitleNumberToggle<CR>', desc = 'Toggle markdown title numbering' },
+  }
 }
 ```
 
@@ -59,19 +59,18 @@ use {
 
 ```lua
 {
-    'gitsang/markdown-title-numbering.nvim',
-    opts = {
-        auto_number_on_save = true,  -- Auto number on save
-        file_patterns = { "*.md", "*.markdown" },  -- File patterns to apply
-        format = {
-            [2] = "%d.",          -- ## 1. Title
-            [3] = "%d.%d",        -- ### 1.1 Title
-            [4] = "%d.%d.%d",     -- #### 1.1.1 Title
-            [5] = "%d.%d.%d.%d",  -- ##### 1.1.1.1 Title
-            [6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
-        },
-        skip_level_1 = true,         -- Skip level 1 headers
-    }
+  'gitsang/markdown-title-numbering.nvim',
+  opts = {
+    auto_number_on_save = true, -- Auto number on save
+    file_patterns = { "*.md", "*.mdx", "*.markdown" }, -- File patterns to apply
+    format = {
+      [2] = "%d.", -- ## 1. Title
+      [3] = "%d.%d", -- ### 1.1 Title
+      [4] = "%d.%d.%d", -- #### 1.1.1 Title
+      [5] = "%d.%d.%d.%d", -- ##### 1.1.1.1 Title
+      [6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
+    },
+  }
 }
 ```
 
