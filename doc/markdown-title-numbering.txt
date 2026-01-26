@@ -3,24 +3,23 @@
 ==============================================================================
 CONTENTS                                      *markdown-title-numbering-contents*
 
-    1. Introduction ................ |markdown-title-numbering-introduction|
+    1. Overview .................... |markdown-title-numbering-overview|
     2. Installation ................ |markdown-title-numbering-installation|
-    3. Usage ....................... |markdown-title-numbering-usage|
+    3. Commands .................... |markdown-title-numbering-commands|
     4. Configuration ............... |markdown-title-numbering-configuration|
-    5. Commands .................... |markdown-title-numbering-commands|
-    6. Features .................... |markdown-title-numbering-features|
-    7. Example ..................... |markdown-title-numbering-example|
+    5. Keybindings ................ |markdown-title-numbering-keybindings|
+    6. Example ..................... |markdown-title-numbering-example|
 
 ==============================================================================
-1. INTRODUCTION                              *markdown-title-numbering-introduction*
+1. OVERVIEW                                   *markdown-title-numbering-overview*
 
-Markdown Title Numbering is a Neovim plugin that automatically numbers markdown
-titles according to their hierarchy level.
+This plugin automatically numbers markdown titles according to their hierarchy
+level, making it easy to maintain structured documents.
 
 ==============================================================================
 2. INSTALLATION                              *markdown-title-numbering-installation*
 
-Using packer.nvim:
+Using packer.nvim:~
 >
     use {
         'gitsang/markdown-title-numbering.nvim',
@@ -32,7 +31,7 @@ Using packer.nvim:
     }
 <
 
-Using lazy.nvim:
+Using lazy.nvim:~
 >
     {
         'gitsang/markdown-title-numbering.nvim',
@@ -43,40 +42,7 @@ Using lazy.nvim:
 <
 
 ==============================================================================
-3. USAGE                                      *markdown-title-numbering-usage*
-
-By default, the plugin will automatically number markdown titles when saving a
-markdown file. This behavior is controlled by the `auto_number_on_save` option.
-
-==============================================================================
-4. CONFIGURATION                              *markdown-title-numbering-configuration*
-
-These are the default configuration options:
->
-    {
-        -- Default numbering format
-        format = {
-            [2] = "%d.",      -- ## 1. Title
-            [3] = "%d.%d",    -- ### 1.1 Title
-            [4] = "%d.%d.%d", -- #### 1.1.1 Title
-            [5] = "%d.%d.%d.%d", -- ##### 1.1.1.1 Title
-            [6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
-        },
-        -- Whether to automatically number titles when saving markdown files
-        auto_number_on_save = true,
-        -- File patterns to apply the numbering
-        file_patterns = { "*.md", "*.markdown" },
-        -- Whether to add a space after the number
-        space_after_number = true,
-        -- Skip level 1 headers (# Title)
-        skip_level_1 = true,
-    }
-<
-
-You can override any of these options in your configuration.
-
-==============================================================================
-5. COMMANDS                                   *markdown-title-numbering-commands*
+3. COMMANDS                                   *markdown-title-numbering-commands*
 
 *:MarkdownTitleNumber*
     Number all markdown titles in the current buffer.
@@ -88,44 +54,59 @@ You can override any of these options in your configuration.
     Toggle automatic markdown title numbering on save.
 
 ==============================================================================
-6. FEATURES                                   *markdown-title-numbering-features*
+4. CONFIGURATION                              *markdown-title-numbering-configuration*
 
-- Automatically numbers markdown titles based on their hierarchy level
-- Skips level 1 headers (`# Title`) by default (configurable)
-- Preserves existing title numbers (won't add numbers to already numbered titles)
-- Numbers start from 1 (e.g., `## 1. Title`, `### 1.1 Title`)
-- Configurable numbering format for each header level
-- Adds a space after the number by default (configurable)
-
-==============================================================================
-7. EXAMPLE                                    *markdown-title-numbering-example*
-
-Before:
+Default configuration:~
 >
-    # Main Title
-    ## Introduction
-    ### Background
-    ### Motivation
-    ## Methods
-    ### Data Collection
-    #### Survey
-    #### Interviews
-    ### Analysis
-    ## Results
+    {
+        auto_number_on_save = true, -- Auto number on save
+        file_patterns = { "*.md", "*.mdx", "*.markdown" }, -- File patterns to apply
+        format = {
+            [2] = "%d.",      -- ## 1. Title
+            [3] = "%d.%d",    -- ### 1.1 Title
+            [4] = "%d.%d.%d", -- #### 1.1.1 Title
+            [5] = "%d.%d.%d.%d", -- ##### 1.1.1.1 Title
+            [6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
+        },
+    }
 <
 
-After running `:MarkdownTitleNumber`:
+You can override any of these options in your configuration.
+
+==============================================================================
+5. KEYBINDINGS                                *markdown-title-numbering-keybindings*
+
+Example keybindings for lazy.nvim:~
+>
+    {
+        'gitsang/markdown-title-numbering.nvim',
+        keys = {
+            { '<leader>mtn', ':MarkdownTitleNumber<CR>', desc = 'Number markdown titles' },
+            { '<leader>mtnr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
+            { '<leader>mtnt', ':MarkdownTitleNumberToggle<CR>', desc = 'Toggle markdown title numbering' },
+        }
+    }
+<
+
+==============================================================================
+6. EXAMPLE                                    *markdown-title-numbering-example*
+
+Before:~
 >
     # Main Title
+
+    ## Introduction
+
+    ### Background
+<
+
+After:~
+>
+    # Main Title
+
     ## 1. Introduction
+
     ### 1.1 Background
-    ### 1.2 Motivation
-    ## 2. Methods
-    ### 2.1 Data Collection
-    #### 2.1.1 Survey
-    #### 2.1.2 Interviews
-    ### 2.2 Analysis
-    ## 3. Results
 <
 
 ==============================================================================
