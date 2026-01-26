@@ -61,10 +61,10 @@ end
 function M.number_titles(config)
 	-- First, remove all title numbers
 	M.remove_title_numbers(config)
-	
+
 	-- Get the lines after removing numbers
 	local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-	local counters = {0, 0, 0, 0, 0, 0}  -- Initialize counters for all levels to 0
+	local counters = { 0, 0, 0, 0, 0, 0 } -- Initialize counters for all levels to 0
 	local modified_lines = {}
 	local in_code_block = false
 
@@ -94,8 +94,7 @@ function M.number_titles(config)
 
 				-- Add the formatted number to the title
 				local prefix = string.rep("#", level)
-				local space = config.space_after_number and " " or ""
-				modified_lines[i] = string.format("%s %s%s%s", prefix, number_str, space, title_text)
+				modified_lines[i] = string.format("%s %s%s%s", prefix, number_str, " ", title_text)
 			else
 				modified_lines[i] = line
 			end

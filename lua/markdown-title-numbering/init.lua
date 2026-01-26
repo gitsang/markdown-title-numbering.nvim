@@ -14,8 +14,6 @@ local default_config = {
 	auto_number_on_save = true,
 	-- File patterns to apply the numbering (empty means all markdown files)
 	file_patterns = { "*.md", "*.markdown" },
-	-- Whether to add a space after the number
-	space_after_number = true,
 	-- Skip level 1 headers (# Title)
 	skip_level_1 = true,
 }
@@ -68,13 +66,13 @@ end
 function M.toggle_auto_number()
 	-- Toggle the auto_number_on_save setting
 	M.config.auto_number_on_save = not M.config.auto_number_on_save
-	
+
 	-- Remove existing autocommands
 	vim.api.nvim_clear_autocmds({
 		pattern = M.config.file_patterns,
-		event = "BufWritePre"
+		event = "BufWritePre",
 	})
-	
+
 	-- Set up autocommands if enabled
 	if M.config.auto_number_on_save then
 		vim.api.nvim_create_autocmd("BufWritePre", {

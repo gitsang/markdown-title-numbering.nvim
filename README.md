@@ -42,7 +42,40 @@ use {
 - `:MarkdownTitleNumberRemove` - Remove numbers from all markdown titles in the current buffer
 - `:MarkdownTitleNumberToggle` - Toggle automatic markdown title numbering on save
 
-### 2.3 Example
+### 2.3 Keybindings
+
+```lua
+{
+    'gitsang/markdown-title-numbering.nvim',
+    keys = {
+        { '<leader>mtn', ':MarkdownTitleNumber<CR>', desc = 'Number markdown titles' },
+        { '<leader>mtnr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
+        { '<leader>mtnt', ':MarkdownTitleNumberToggle<CR>', desc = 'Toggle markdown title numbering' },
+    }
+}
+```
+
+### 2.4 Configuration
+
+```lua
+{
+    'gitsang/markdown-title-numbering.nvim',
+    opts = {
+        auto_number_on_save = true,  -- Auto number on save
+        file_patterns = { "*.md", "*.markdown" },  -- File patterns to apply
+        format = {
+            [2] = "%d.",          -- ## 1. Title
+            [3] = "%d.%d",        -- ### 1.1 Title
+            [4] = "%d.%d.%d",     -- #### 1.1.1 Title
+            [5] = "%d.%d.%d.%d",  -- ##### 1.1.1.1 Title
+            [6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
+        },
+        skip_level_1 = true,         -- Skip level 1 headers
+    }
+}
+```
+
+### 2.5 Example
 
 Before:
 
