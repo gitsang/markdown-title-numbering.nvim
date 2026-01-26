@@ -4,11 +4,11 @@ local M = {}
 local default_config = {
 	-- Default numbering format
 	format = {
-		[2] = "%d.", -- ## 1. Title
-		[3] = "%d.%d", -- ### 1.1 Title
-		[4] = "%d.%d.%d", -- #### 1.1.1 Title
-		[5] = "%d.%d.%d.%d", -- ##### 1.1.1.1 Title
-		[6] = "%d.%d.%d.%d.%d", -- ###### 1.1.1.1.1 Title
+		[2] = "%d. ", -- ## 1. Title
+		[3] = "%d.%d ", -- ### 1.1 Title
+		[4] = "%d.%d.%d ", -- #### 1.1.1 Title
+		[5] = "%d.%d.%d.%d ", -- ##### 1.1.1.1 Title
+		[6] = "%d.%d.%d.%d.%d ", -- ###### 1.1.1.1.1 Title
 	},
 	-- Whether to automatically number titles when saving markdown files
 	auto_number_on_save = true,

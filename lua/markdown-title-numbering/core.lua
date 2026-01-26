@@ -94,7 +94,7 @@ function M.number_titles(config)
 
 				-- Add the formatted number to the title
 				local prefix = string.rep("#", level)
-				modified_lines[i] = string.format("%s %s%s%s", prefix, number_str, " ", title_text)
+				modified_lines[i] = string.format("%s %s%s", prefix, number_str, title_text)
 			else
 				modified_lines[i] = line
 			end
