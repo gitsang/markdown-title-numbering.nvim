@@ -14,8 +14,6 @@ local default_config = {
 	auto_number_on_save = true,
 	-- File patterns to apply the numbering (empty means all markdown files)
 	file_patterns = { "*.md", "*.mdx", "*.markdown" },
-	-- Skip level 1 headers (# Title)
-	skip_level_1 = true,
 }
 
 -- User configuration

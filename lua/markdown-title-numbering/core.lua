@@ -80,7 +80,7 @@ function M.number_titles(config)
 		else
 			local level, _, title_text = parse_title(line)
 
-			if level and level > 1 and (not config.skip_level_1 or level > 1) then
+			if level then
 				-- Reset counters for levels deeper than the current one
 				for j = level + 1, 6 do
 					counters[j] = 0
