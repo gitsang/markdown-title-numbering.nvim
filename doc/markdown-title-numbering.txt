@@ -46,12 +46,11 @@ Using lazy.nvim:~
 
 *:MarkdownTitleNumber*
     Number all markdown titles in the current buffer.
+    Also inserts <!-- MarkdownTitleNumber --> at line 1 when missing.
+    Automatic numbering on save only runs when this marker is present on line 1.
 
 *:MarkdownTitleNumberRemove*
     Remove numbers from all markdown titles in the current buffer.
-
-*:MarkdownTitleNumberToggle*
-    Toggle automatic markdown title numbering on save.
 
 ==============================================================================
 4. CONFIGURATION                              *markdown-title-numbering-configuration*
@@ -59,7 +58,6 @@ Using lazy.nvim:~
 Default configuration:~
 >
     {
-        auto_number_on_save = true, -- Auto number on save
         file_patterns = { "*.md", "*.mdx", "*.markdown" }, -- File patterns to apply
         format = {
             [2] = "%d.",      -- ## 1. Title
@@ -83,7 +81,6 @@ Example keybindings for lazy.nvim:~
         keys = {
             { '<leader>mtn', ':MarkdownTitleNumber<CR>', desc = 'Number markdown titles' },
             { '<leader>mtnr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
-            { '<leader>mtnt', ':MarkdownTitleNumberToggle<CR>', desc = 'Toggle markdown title numbering' },
         }
     }
 <

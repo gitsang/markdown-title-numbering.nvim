@@ -91,7 +91,7 @@ return M
 
 - Default config defined as table with descriptive keys
 - User config merged with default using `vim.tbl_deep_extend("force", default_config, user_config or {})`
-- Config options use descriptive names with underscores: `auto_number_on_save`, `file_patterns`
+- Config options use descriptive names with underscores: `file_patterns`, `format`
 
 ### 2.11 String Patterns
 

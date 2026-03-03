@@ -263,8 +263,23 @@ PASS
 
 Test results: 3 passed, 0 failed
 
+=== marker mode tests ===
+Running marker mode tests...
+
+Test 1: setup registers commands without toggle
+PASS
+
+Test 2: MarkdownTitleNumber inserts marker and numbers
+PASS
+
+Test 3: BufWritePre only numbers when marker exists
+PASS
+
+Test results: 3 passed, 0 failed
+
 === Test Summary ===
 parse_title: 8 passed, 0 failed
 remove_title_numbers: 8 passed, 0 failed
 code_blocks: 3 passed, 0 failed
-Total: 19 passed, 0 failed
+marker_mode: 3 passed, 0 failed
+Total: 22 passed, 0 failed
