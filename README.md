@@ -1,4 +1,4 @@
-#  Markdown Title Numbering
+# Markdown Title Numbering
 
 A Neovim plugin for automatically numbering markdown titles.
 
@@ -30,6 +30,7 @@ use {
 ```lua
 {
   'gitsang/markdown-title-numbering.nvim',
+  ft = { 'markdown', 'mdx' },
   opts = {
     -- your configuration here (optional)
   }
@@ -50,12 +51,16 @@ Without this marker line at the beginning of the file, save will not modify titl
 ```lua
 {
   'gitsang/markdown-title-numbering.nvim',
+  ft = { 'markdown', 'mdx' },
+  opts = {},
   keys = {
     { '<leader>mtn', ':MarkdownTitleNumber<CR>', desc = 'Number markdown titles' },
-    { '<leader>mtnr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
+    { '<leader>mtr', ':MarkdownTitleNumberRemove<CR>', desc = 'Remove markdown title numbers' },
   }
 }
 ```
+
+`ft` ensures the plugin loads when opening markdown files, so commands are available immediately.
 
 ### 2.4 Configuration
 
