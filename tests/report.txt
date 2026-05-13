@@ -1,8 +1,3 @@
-[denops] A 'deno' (g:denops#deno) is not executable. Denops requires executable Deno.
-llama.vim: keymap_accept_full is deprecated, use keymap_fim_accept_full instead
-llama.vim: endpoint is deprecated, use endpoint_fim instead
-llama.vim: keymap_accept_line is deprecated, use keymap_fim_accept_line instead
-llama.vim: keymap_accept_word is deprecated, use keymap_fim_accept_word instead
 Running all tests...
 
 === parse_title tests ===
@@ -269,17 +264,20 @@ Running marker mode tests...
 Test 1: setup registers commands without toggle
 PASS
 
-Test 2: MarkdownTitleNumber inserts marker and numbers
+Test 2: MarkdownTitleNumber inserts auto marker, blank line, and numbers
 PASS
 
-Test 3: BufWritePre only numbers when marker exists
+Test 3: BufWritePre only numbers when exact auto marker exists on any line
 PASS
 
-Test results: 3 passed, 0 failed
+Test 4: MarkdownTitleNumber inserts marker below front matter
+PASS
+
+Test results: 4 passed, 0 failed
 
 === Test Summary ===
 parse_title: 8 passed, 0 failed
 remove_title_numbers: 8 passed, 0 failed
 code_blocks: 3 passed, 0 failed
-marker_mode: 3 passed, 0 failed
-Total: 22 passed, 0 failed
+marker_mode: 4 passed, 0 failed
+Total: 23 passed, 0 failed

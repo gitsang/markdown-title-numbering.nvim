@@ -1,5 +1,6 @@
 local M = {}
-local MARKER_LINE = "<!-- MarkdownTitleNumber -->"
+local vim = rawget(_G, "vim")
+local MARKER_LINE = "<!-- MarkdownTitleNumber auto -->"
 
 -- Default configuration
 local default_config = {
@@ -19,7 +20,40 @@ local default_config = {
 M.config = {}
 
 local function has_marker_line(lines)
-	return lines[1] == MARKER_LINE
+	for _, line in ipairs(lines) do
+		if line == MARKER_LINE then
+			return true
+		end
+	end
+
+	return false
+end
+
+local function get_front_matter_end(lines)
+	if lines[1] ~= "---" then
+		return nil
+	end
+
+	for i = 2, #lines do
+		if lines[i] == "---" then
+			return i
+		end
+	end
+
+	return nil
+end
+
+local function get_marker_insert_position(lines)
+	local front_matter_end = get_front_matter_end(lines)
+	if not front_matter_end then
+		return 1, false
+	end
+
+	if lines[front_matter_end + 1] == "" then
+		return front_matter_end + 2, false
+	end
+
+	return front_matter_end + 1, true
 end
 
 local function ensure_marker_line(lines)
@@ -27,8 +61,22 @@ local function ensure_marker_line(lines)
 		return lines, false
 	end
 
-	local updated_lines = { MARKER_LINE }
-	for _, line in ipairs(lines) do
+	local insert_position, needs_blank_before_marker = get_marker_insert_position(lines)
+	local updated_lines = {}
+
+	for i = 1, insert_position - 1 do
+		table.insert(updated_lines, lines[i])
+	end
+
+	if needs_blank_before_marker then
+		table.insert(updated_lines, "")
+	end
+
+	table.insert(updated_lines, MARKER_LINE)
+	table.insert(updated_lines, "")
+
+	for i = insert_position, #lines do
+		local line = lines[i]
 		table.insert(updated_lines, line)
 	end
 
@@ -43,8 +91,8 @@ function M.setup(user_config)
 	vim.api.nvim_create_autocmd("BufWritePre", {
 		pattern = M.config.file_patterns,
 		callback = function()
-			local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)
-			if has_marker_line(first_line) then
+			local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+			if has_marker_line(lines) then
 				M.number_titles()
 			end
 		end,

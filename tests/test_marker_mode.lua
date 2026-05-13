@@ -1,3 +1,5 @@
+local MARKER_LINE = "<!-- MarkdownTitleNumber auto -->"
+
 local function create_state(buffer_lines)
 	local commands = {}
 	local autocmds = {}
@@ -33,6 +35,14 @@ local function assert_true(condition, message)
 	end
 end
 
+local function assert_lines(actual, expected)
+	assert_true(#actual == #expected, string.format("expected %d lines, got %d", #expected, #actual))
+
+	for i, line in ipairs(expected) do
+		assert_true(actual[i] == line, string.format("line %d expected %q, got %q", i, line, actual[i]))
+	end
+end
+
 local function reset_modules()
 	package.loaded["markdown-title-numbering.core"] = nil
 	package.loaded["lua.markdown-title-numbering.init"] = nil
@@ -50,7 +60,7 @@ local function run_case(fn)
 end
 
 local function with_patched_vim(state, fn)
-	local nvim = _G.vim
+	local nvim = rawget(_G, "vim")
 	local original_create_user_command = nvim.api.nvim_create_user_command
 	local original_create_autocmd = nvim.api.nvim_create_autocmd
 	local original_get_lines = nvim.api.nvim_buf_get_lines
@@ -129,7 +139,7 @@ function M.run_tests()
 		failed = failed + 1
 	end
 
-	print("\nTest 2: MarkdownTitleNumber inserts marker and numbers")
+	print("\nTest 2: MarkdownTitleNumber inserts auto marker, blank line, and numbers")
 	if run_case(function()
 		local state = create_state({ "# Main Title", "## Intro" })
 		with_patched_vim(state, function()
@@ -141,7 +151,7 @@ function M.run_tests()
 			state.commands.MarkdownTitleNumber()
 
 			local lines = state.get_buffer_lines()
-			assert_true(lines[1] == "<!-- MarkdownTitleNumber -->", "marker was not inserted at first line")
+			assert_lines(lines, { MARKER_LINE, "", "# Main Title", "## Intro" })
 			assert_true(state.get_number_titles_calls() == 1, "number_titles should be called once")
 		end)
 	end) then
@@ -150,7 +160,7 @@ function M.run_tests()
 		failed = failed + 1
 	end
 
-	print("\nTest 3: BufWritePre only numbers when marker exists")
+	print("\nTest 3: BufWritePre only numbers when exact auto marker exists on any line")
 	if run_case(function()
 		local state = create_state({ "# Main Title", "## Intro" })
 		with_patched_vim(state, function()
@@ -164,9 +174,38 @@ function M.run_tests()
 			state.autocmds[1].callback()
 			assert_true(state.get_number_titles_calls() == 0, "should not number without marker")
 
-			state.commands.MarkdownTitleNumber()
+			state.set_buffer_lines({ "# Main Title", "<!-- MarkdownTitleNumber -->", "## Intro" })
 			state.autocmds[1].callback()
-			assert_true(state.get_number_titles_calls() == 2, "should number with marker on save")
+			assert_true(state.get_number_titles_calls() == 0, "should not number with old marker")
+
+			state.set_buffer_lines({ "# Main Title", "<!-- MarkdownTitleNumber auto --> extra", "## Intro" })
+			state.autocmds[1].callback()
+			assert_true(state.get_number_titles_calls() == 0, "should not number when marker has extra text")
+
+			state.set_buffer_lines({ "# Main Title", MARKER_LINE, "## Intro" })
+			state.autocmds[1].callback()
+			assert_true(state.get_number_titles_calls() == 1, "should number with exact marker on any line")
+		end)
+	end) then
+		passed = passed + 1
+	else
+		failed = failed + 1
+	end
+
+	print("\nTest 4: MarkdownTitleNumber inserts marker below front matter")
+	if run_case(function()
+		local state = create_state({ "---", "title: 标题", "date: 2020-01-01", "---", "# Main Title", "## Intro" })
+		with_patched_vim(state, function()
+			reset_modules()
+			package.loaded["markdown-title-numbering.core"] = state.core
+			local plugin = require("lua.markdown-title-numbering.init")
+			plugin.setup({})
+
+			state.commands.MarkdownTitleNumber()
+
+			local lines = state.get_buffer_lines()
+			assert_lines(lines, { "---", "title: 标题", "date: 2020-01-01", "---", "", MARKER_LINE, "", "# Main Title", "## Intro" })
+			assert_true(state.get_number_titles_calls() == 1, "number_titles should be called once")
 		end)
 	end) then
 		passed = passed + 1
