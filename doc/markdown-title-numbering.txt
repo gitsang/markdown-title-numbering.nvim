@@ -47,8 +47,10 @@ Using lazy.nvim:~
 
 *:MarkdownTitleNumber*
     Number all markdown titles in the current buffer.
-    Also inserts <!-- MarkdownTitleNumber --> at line 1 when missing.
-    Automatic numbering on save only runs when this marker is present on line 1.
+    Also inserts <!-- MarkdownTitleNumber auto --> when missing, followed by a
+    blank line. With markdown front matter, the marker is inserted below the
+    front matter. Automatic numbering on save only runs when an exact marker
+    line is present anywhere in the file.
 
 *:MarkdownTitleNumberRemove*
     Remove numbers from all markdown titles in the current buffer.
