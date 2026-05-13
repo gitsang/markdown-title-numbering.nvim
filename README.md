@@ -42,9 +42,9 @@ use {
 - `:MarkdownTitleNumber` - Number all markdown titles in the current buffer
 - `:MarkdownTitleNumberRemove` - Remove numbers from all markdown titles in the current buffer
 
-Running `:MarkdownTitleNumber` will insert `<!-- MarkdownTitleNumber -->` at the first line (if missing).
+Running `:MarkdownTitleNumber` will insert `<!-- MarkdownTitleNumber auto -->` (if missing), followed by a blank line.
 After that, titles are automatically renumbered on save for matching markdown files.
-Without this marker line at the beginning of the file, save will not modify titles.
+Without an exact marker line anywhere in the file, save will not modify titles. In files with markdown front matter, the marker is inserted below the front matter.
 
 ### 2.3 Keybindings
 
